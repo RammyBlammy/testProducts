@@ -7,6 +7,7 @@ use App\Imports\ProductImport;
 use App\Models\CustomFields;
 use App\Models\ImageProduct;
 use App\Models\Product;
+use Exception;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -180,8 +181,19 @@ class UploadDataController extends Controller
                 $partsLink = explode('/', $link);
                 $fileName = end($partsLink);
                 $fileTo =  __DIR__ . '/../../../resources/products/' . $fileName;
+
                 if (!file_exists($fileTo)) {
-                    copy($link, $fileTo);
+                    try {
+                        mkdir(__DIR__ . '/../../../resources/products');
+                    } catch (Exception $e) {
+                    };
+                    $ch = curl_init();
+                    curl_setopt($ch, CURLOPT_URL, $link);
+                    $fp = fopen($fileTo, 'w');
+                    curl_setopt($ch, CURLOPT_FILE, $fp);
+                    curl_exec($ch);
+                    curl_close($ch);
+                    fclose($fp);
                 }
                 $res = ImageProduct::insert([
                     'product_id' => $productId,
