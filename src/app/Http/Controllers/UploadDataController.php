@@ -115,7 +115,6 @@ class UploadDataController extends Controller
             if (isset(self::NAME_TO_COLUMN_TRANSLATED[$value]) && self::NAME_TO_COLUMN_TRANSLATED[$value] != '')
                 $this->columnsOrder[self::NAME_TO_COLUMN_TRANSLATED[$value]] = $key;
         }
-        print_r($this->columnsOrder);
     }
 
     private function createProduct(array $data)

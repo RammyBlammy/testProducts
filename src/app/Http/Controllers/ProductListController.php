@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Schema;
 
 class ProductListController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
         $columns = Schema::getColumnListing('product');
         return view('product-list', [
